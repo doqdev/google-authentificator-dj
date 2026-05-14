@@ -81,6 +81,22 @@ Lokalda tez ishga tushirish uchun `DB_ENGINE=sqlite` qilib qo‘yishingiz mumkin
    - `2FA challenge` sahifasiga o‘tkazadi
    - To‘g‘ri TOTP kod kiritilgandagina profilga kiradi
 
+### Yangi foydalanuvchi uchun sodda yo‘riqnoma (secret/QR qayerda?)
+
+1. Avval `Register` qiling, keyin `Login` qiling.
+2. `Profile` (`/profile/`) sahifasiga kiring.
+3. `Generate 2FA secret` ni bosing:
+   - Shu sahifaning o‘zida `QR code` chiqadi.
+   - Shu sahifaning o‘zida `Backup key` (bu sizning **secret** kalitingiz) ko‘rinadi.
+4. Google Authenticator ilovasida:
+   - `+` bosing → `Scan a QR code` ni tanlab QR’ni skaner qiling, yoki
+   - `Enter setup key` orqali `Backup key` (secret) ni qo‘lda kiriting.
+5. Ilovadagi 6 xonali kodni `Profile` sahifasidagi `Verify and enable` formiga kiriting.
+6. Kod to‘g‘ri bo‘lsa 2FA yoqiladi (`Enabled` holati chiqadi).
+7. Keyingi loginlarda:
+   - Avval username/password,
+   - So‘ng `/2fa/challenge/` sahifasida Google Authenticator kodini kiritasiz.
+
 ## 6) Muhim ENV parametrlar
 
 `.env.example` ichida:
