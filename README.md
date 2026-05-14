@@ -99,3 +99,12 @@ Qamrov:
 - 2FA bo‘lmasa oddiy login ishlashi
 - 2FA yoqilgan bo‘lsa login challenge talab qilishi
 - to‘g‘ri TOTP kod bilan login yakunlanishi
+
+## 8) FAQ: Google’dan credential olish kerakmi?
+
+Qisqa javob: **yo‘q, TOTP 2FA uchun Google API credential kerak emas**.
+
+- Google Authenticator bu Google API’ga bog‘langan servis emas; u **ochiq TOTP standarti (RFC 6238)** bo‘yicha kod yaratadi.
+- Shu sababli `pyotp` + `qrcode` bilan ishlaganda Google Developer Console’dan `api_key`, `client_id`, `client_secret` yoki token olish talab qilinmaydi.
+- Foydalanuvchi server bergan **secret** va **QR (otpauth URI)** ni olib, Google Authenticator, Authy, Microsoft Authenticator kabi istalgan TOTP ilovasida ishlata oladi.
+- Google credential/OAuth faqat **Google account bilan kirish (federated login / Sign in with Google)** qilmoqchi bo‘lsangiz kerak bo‘ladi.
