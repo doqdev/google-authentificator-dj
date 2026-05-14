@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+  <h1>Profile</h1>
+  <p>Welcome, <strong>{{ user.username }}</strong>.</p>
+
+  <div class="card">
+    <h2>Two-Factor Authentication (Google Authenticator)</h2>
+    <p>2FA status: <strong>{% if two_factor.is_enabled %}Enabled{% else %}Disabled{% endif %}</strong></p>
+
+    {% if not two_factor.secret %}
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="generate_secret">
+        <button type="submit">Generate 2FA secret</button>
+      </form>
+    {% else %}
+      <p>Scan this QR code with Google Authenticator:</p>
+      <img src="data:image/png;base64,{{ qr_base64 }}" alt="2FA QR code" />
+      <p><small>Backup key: {{ two_factor.secret }}</small></p>
+      <p><small>otpauth URI: {{ provisioning_uri }}</small></p>
+
+      {% if not two_factor.is_enabled %}
+        <h3>Enable 2FA</h3>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="enable_2fa">
+          {{ code_form.as_p }}
+          <button type="submit">Verify and enable</button>
+        </form>
+      {% else %}
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="disable_2fa">
+          <button type="submit">Disable 2FA</button>
+        </form>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}
